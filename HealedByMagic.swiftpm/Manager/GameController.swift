@@ -13,9 +13,12 @@ class GameController {
         return GameController()
     }()
     
-    var initialScene: LaboratoryScene {
+    var initialScene: FirstExperimentScene {
         .newScene()
     }
     
     var stepsPassed: Int = 0
+    var firstExpCompleted: Bool = false
+    var secondExpCompleted: Bool = false
+    var thirdExpCompleted: Bool = false
 }
