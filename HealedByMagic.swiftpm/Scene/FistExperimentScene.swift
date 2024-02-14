@@ -10,7 +10,7 @@ import SpriteKit
 
 class FirstExperimentScene: SKScene {
     
-    var password: String = "AAC" // Senha inicial
+    var password: String = "AAA" // Senha inicial
     var currentPasswordIndex: Int = 0
     
     override func didMove(to view: SKView) {
@@ -24,10 +24,8 @@ class FirstExperimentScene: SKScene {
     }
     
     func setupScene() {
-        // Adicione aqui a configuração inicial do cenário, como o fundo, cofre, etc.
-        // ...
         
-        // Adicione os espaços para as letras e setas
+        // TODO: Adicionar mais 2 trios de letras
         for i in 0..<3 {
             let letterSlot = SKLabelNode(fontNamed: "Arial")
             letterSlot.text = "_"
@@ -74,7 +72,7 @@ class FirstExperimentScene: SKScene {
                     rotatePasswordLetter(index: index, up: false)
                 }
             } else if node.name == "confirmButton" {
-                // Adicione a lógica para verificar a senha e realizar a ação apropriada
+
                 if checkPassword() {
                     print("Senha correta! Cofre aberto.")
                 } else {
@@ -85,9 +83,8 @@ class FirstExperimentScene: SKScene {
     }
     
     func rotatePasswordLetter(index: Int, up: Bool) {
-        let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        let alphabet = "UACG"
         
-        // Verifica se o índice está dentro dos limites do alfabeto
         guard index >= 0 && index < password.count else {
             return
         }
@@ -123,8 +120,12 @@ class FirstExperimentScene: SKScene {
         }
     }
     
+    //TODO: Trocar para lógica de tradução de DNA para mRNA
     func checkPassword() -> Bool {
-        return password == "AAB" // Substitua "TARGET" pela senha desejada
+        return password == "AAB"
     }
+    
+    // TODO: Adicionar função para mostrar RNA transcrito
+    // TODO: Adicionar lógica de falas para explicação
 }
 
