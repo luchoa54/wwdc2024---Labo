@@ -22,32 +22,32 @@ class FirstExperimentScene: SKScene {
     }
     
     class func newScene() -> FirstExperimentScene {
-        let scene = FirstExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        scene.scaleMode = .aspectFill
+        let scene = FirstExperimentScene(size: CGSize(width: 900, height: 800))
+        scene.scaleMode = .fill
         return scene
     }
     
     func setupScene() {
-        
+       
         for i in 0..<9 {
             let letterSlot = SKLabelNode(fontNamed: "Arial")
             letterSlot.text = "_"
             letterSlot.fontSize = 40
-            letterSlot.position = CGPoint(x: CGFloat(i * 100) + 100, y: 200)
+            letterSlot.position = CGPoint(x: CGFloat(i * 100) + 100, y: 390)
             letterSlot.name = "letterSlot\(i)"
             addChild(letterSlot)
             
             let upArrow = SKLabelNode(fontNamed: "Arial")
             upArrow.text = "↑"
             upArrow.fontSize = 30
-            upArrow.position = CGPoint(x: CGFloat(i * 100) + 100, y: 260)
+            upArrow.position = CGPoint(x: CGFloat(i * 100) + 100, y: 460)
             upArrow.name = "upArrow\(i)"
             addChild(upArrow)
             
             let downArrow = SKLabelNode(fontNamed: "Arial")
             downArrow.text = "↓"
             downArrow.fontSize = 30
-            downArrow.position = CGPoint(x: CGFloat(i * 100) + 100 , y: 130)
+            downArrow.position = CGPoint(x: CGFloat(i * 100) + 100 , y: 330)
             downArrow.name = "downArrow\(i)"
             addChild(downArrow)
         }
@@ -55,7 +55,7 @@ class FirstExperimentScene: SKScene {
         let confirmButton = SKLabelNode(fontNamed: "Arial")
         confirmButton.text = "Confirmar"
         confirmButton.fontSize = 30
-        confirmButton.position = CGPoint(x: 500, y: 50)
+        confirmButton.position = CGPoint(x: 450, y: 250)
         confirmButton.name = "confirmButton"
         addChild(confirmButton)
     }

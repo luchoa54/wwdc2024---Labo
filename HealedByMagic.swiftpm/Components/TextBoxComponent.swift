@@ -1,0 +1,63 @@
+//
+//  File.swift
+//
+//
+//  Created by Luciano Uchoa on 15/02/24.
+//
+
+import Foundation
+import SwiftUI
+
+
+struct TextBoxComponent: View {
+    
+    @State private var currentTextIndex = 0
+    @State private var currentTextCount = 0
+    
+    @State var textArray: [TextDataManager]
+    
+    var body: some View {
+        ZStack {
+            Text(getCurrentText(textArray: textArray))
+                .font(.custom("Arial", size: 24))
+                .onAppear {
+                    TextWriteOnScreen(textArray: textArray)
+                }
+            
+            HStack {
+                Button(action: {
+                    self.currentTextIndex = (self.currentTextIndex + 1) % textArray.count
+                    self.currentTextCount = 0
+                }){
+                    Image("textdone")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                }
+                .frame(width: 50, height: 50)
+                .background(Color.red)
+            }
+            .padding(.leading, 535)
+            .padding(.top, 250)
+        }
+        .frame(width: 620, height: 200)
+        
+    }
+    
+    func getCurrentText(textArray : [TextDataManager]) -> String {
+        let currentText = textArray[self.currentTextIndex].text
+        let endIndex = currentText.index(currentText.startIndex, offsetBy: self.currentTextCount)
+        return String(currentText[..<endIndex])
+    }
+    
+    func TextWriteOnScreen(textArray : [TextDataManager]) {
+        let totalTime = 4.0
+        let charCount = Double(textArray[self.currentTextIndex].text.count)
+        let interval = totalTime / charCount
+        let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+            if self.currentTextCount < textArray[self.currentTextIndex].text.count {
+                self.currentTextCount += 1
+            }
+        }
+        timer.fire()
+    }
+}
