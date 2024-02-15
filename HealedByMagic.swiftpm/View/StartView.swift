@@ -30,6 +30,6 @@ struct StartView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-            .navigationBarBackButtonHidden()
+        .navigationBarBackButtonHidden(true)
     }
 }

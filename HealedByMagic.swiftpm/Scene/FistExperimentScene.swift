@@ -5,10 +5,9 @@
 //  Created by Luciano Uchoa on 13/02/24.
 //
 
-//O cientista, ao investigar os efeitos da magia do mago, descobre que a transformação das pessoas em monstros está relacionada a uma alteração genética específica. Ele percebe que, para reverter o processo, precisa criar uma poção com uma sequência específica de RNA que neutralize os efeitos da magia.
-
 import Foundation
 import SpriteKit
+import SwiftUI
 
 class FirstExperimentScene: SKScene {
     
@@ -16,16 +15,27 @@ class FirstExperimentScene: SKScene {
     var rnaSequence: String = ""
     var currentdnaSequenceIndex: Int = 0
     
+    @Binding var moveTonewScene: Bool
+    
     override func didMove(to view: SKView) {
         setupScene()
         updatednaSequenceDisplay()
     }
     
-    class func newScene() -> FirstExperimentScene {
-        let scene = FirstExperimentScene(size: CGSize(width: 900, height: 800))
-        scene.scaleMode = .fill
-        return scene
+    init(size: CGSize, _ newScene: Binding<Bool>) {
+        _moveTonewScene = newScene
+        super.init(size: size)
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    class func newScene() -> FirstExperimentScene {
+//        let scene = FirstExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 600))
+//        scene.scaleMode = .aspectFit
+//        return scene
+//    }
     
     func setupScene() {
        
@@ -74,6 +84,7 @@ class FirstExperimentScene: SKScene {
                     rotateDNALetter(index: index, up: false)
                 }
             } else if node.name == "confirmButton" {
+                moveTonewScene.toggle()
                 transcribeDNAtoRNA()
                 if checkRNA() {
                     print("RNA correto! Processo concluído.")
@@ -171,16 +182,8 @@ class FirstExperimentScene: SKScene {
         addChild(transcriptionLabel)
     }
     
-    // TODO: Adicionar função para mostrar RNA transcrito
-    // TODO: Adicionar lógica de falas para explicação
-    
     //Animação das poções
-    func createBluePotion() {}
-    
-    func createRedPotion() {}
-    
-    func createGreenPotion() {}
-    
+    func createPotion() {}
     
 }
 
