@@ -23,10 +23,20 @@ struct SecondExperimentView: View {
                 .statusBar(hidden: true)
                 .ignoresSafeArea()
             
-            TextBoxComponent(textArray: TextDataManager.potionIntroduction, finishSpeak: $finishSpeak)
+            HStack {
+                TextBoxComponent(textArray: TextDataManager.potionDone, finishSpeak: $finishSpeak)
+                
+                if finishSpeak {
+                    Button(action: {
+                        navigateToNewView.toggle()
+                    }, label: {
+                        /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                    })
+                }
+            }
 
         }
         
-        NavigationLink("", destination: SecondExperimentView(), isActive: $navigateToNewView)
+        NavigationLink("", destination: FinishView(), isActive: $navigateToNewView)
     }
 }

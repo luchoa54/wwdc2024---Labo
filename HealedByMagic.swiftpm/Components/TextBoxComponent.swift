@@ -18,13 +18,15 @@ struct TextBoxComponent: View {
     
     @Binding var finishSpeak: Bool
     
+    @State var textSpeed: CGFloat = 4.0
+    
     var body: some View {
         ZStack {
             Text(getCurrentText(textArray: textArray))
                 .font(.custom("Arial", size: 24))
                 .multilineTextAlignment(.center)
                 .onAppear {
-                    TextWriteOnScreen(textArray: textArray)
+                    TextWriteOnScreen(textArray: textArray, textSpeed)
                 }
             
             
@@ -43,7 +45,7 @@ struct TextBoxComponent: View {
                 }
             }
             .padding(.leading, 535)
-            .padding(.top, 250)
+            .padding(.top, 50)
         }
         .frame(width: 620, height: 200)
         
@@ -55,8 +57,8 @@ struct TextBoxComponent: View {
         return String(currentText[..<endIndex])
     }
     
-    func TextWriteOnScreen(textArray: [TextDataManager]) {
-        let totalTime = 4.0
+    func TextWriteOnScreen(textArray: [TextDataManager], _ textSpeed: CGFloat) {
+        let totalTime = textSpeed
         let charCount = Double(textArray[self.currentTextIndex].text.count)
         let interval = totalTime / charCount
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
@@ -81,13 +83,15 @@ struct TextBoxAndImageComponent: View {
     @Binding var finishSpeak: Bool
     @Binding var clickCount: Int
     
+    @State var textSpeed: CGFloat = 2.0
+    
     var body: some View {
         ZStack {
             Text(getCurrentText(textArray: textArray))
                 .font(.custom("Arial", size: 24))
                 .multilineTextAlignment(.center)
                 .onAppear {
-                    TextWriteOnScreen(textArray: textArray)
+                    TextWriteOnScreen(textArray: textArray, textSpeed)
                 }
             
             HStack {
@@ -117,8 +121,8 @@ struct TextBoxAndImageComponent: View {
         return String(currentText[..<endIndex])
     }
     
-    func TextWriteOnScreen(textArray: [TextDataManager]) {
-        let totalTime = 4.0
+    func TextWriteOnScreen(textArray: [TextDataManager], _ textSpeed: CGFloat) {
+        let totalTime = textSpeed
         let charCount = Double(textArray[self.currentTextIndex].text.count)
         let interval = totalTime / charCount
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in

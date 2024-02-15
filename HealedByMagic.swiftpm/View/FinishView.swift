@@ -26,17 +26,20 @@ struct FinishView: View {
                             Image(.icon)
                         case 3:
                             Image(.icon)
-                        case 4:
-                            EmptyView()
-                                .onAppear {
-                                    backToMenu.toggle()
-                                }
                         default:
-                            EmptyView()
+                            Image(.icon)
                     }
                 }
                 
-                TextBoxAndImageComponent(textArray: TextDataManager.experimentDone, finishSpeak: $canStartShowImages, clickCount: $clickCount)
+                HStack {
+                    TextBoxAndImageComponent(textArray: TextDataManager.experimentDone, finishSpeak: $canStartShowImages, clickCount: $clickCount)
+                    
+                    Button(action: {
+                        backToMenu.toggle()
+                    }, label: {
+                        /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                    })
+                }
             }
         }
         

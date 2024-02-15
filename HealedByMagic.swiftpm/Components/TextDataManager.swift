@@ -52,7 +52,6 @@ struct TextDataManager {
         .init(text: "... e encontrar os antígenos eficazes para desenvolver a cadeia de RNA correta, permitindo que nosso próprio corpo construa nossa defesa!", emotion: .determined),
         .init(text: "É claro que existem outras etapas na produção de vacinas por RNA, como testes e produção em massa. No entanto, é fascinante como essas cadeias são fundamentais para proteger todas as pessoas ao nosso redor!", emotion: .happy),
         .init(text: "Muito obrigado por compartilhar essa experiência comigo! E lembre-se: Vacinas não apenas salvam vidas, mas também representam uma conquista da ciência que nos conecta e protege coletivamente", emotion: .happy)
-
     ]
 
     
