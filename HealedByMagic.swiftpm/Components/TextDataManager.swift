@@ -50,6 +50,7 @@ struct TextDataManager {
         .init(text: "Este cenário que parece bobo retrata uma parte crucial de como esses pequenos frascos mantêm toda a humanidade segura contra várias doenças!", emotion: .determined),
         .init(text: "Demorou um pouco para decifrar os DNAs, não é? Na vida real, é semelhante! As vacinas levam tempo devido ao trabalho árduo de compreender o vírus-alvo...", emotion: .determined),
         .init(text: "... e encontrar os antígenos eficazes para desenvolver a cadeia de RNA correta, permitindo que nosso próprio corpo construa nossa defesa!", emotion: .determined),
+        .init(text: "As cadeias de RNA que você transcreveu são um pequenino trecho das que usadas para a criação das vacinas que nos ajudaram a vencer a recente pandemia de COVID-19, sabia?", emotion: .happy),
         .init(text: "É claro que existem outras etapas na produção de vacinas por RNA, como testes e produção em massa. No entanto, é fascinante como essas cadeias são fundamentais para proteger todas as pessoas ao nosso redor!", emotion: .happy),
         .init(text: "Muito obrigado por compartilhar essa experiência comigo! E lembre-se: Vacinas não apenas salvam vidas, mas também representam uma conquista da ciência que nos conecta e protege coletivamente", emotion: .happy)
     ]

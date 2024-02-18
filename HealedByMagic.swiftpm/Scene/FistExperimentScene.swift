@@ -11,97 +11,97 @@ import SwiftUI
 
 class FirstExperimentScene: SKScene {
     
-    var dnaSequence: String = "AAAAAAAAA"
+    var dnaSequence: String = ExperimentStrings.inicialDNASequence
     var rnaSequence: String = ""
     var currentdnaSequenceIndex: Int = 0
     
     @Binding var moveTonewScene: Bool
     
-    override func didMove(to view: SKView) {
+    // MARK: - Initialization
+    
+    init(size: CGSize, _ moveTonewScene: Binding<Bool>) {
+        _moveTonewScene = moveTonewScene
+        super.init(size: size)
         setupScene()
         updatednaSequenceDisplay()
-    }
-    
-    init(size: CGSize, _ newScene: Binding<Bool>) {
-        _moveTonewScene = newScene
-        super.init(size: size)
+        showTranscriptionOnScreen()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    class func newScene() -> FirstExperimentScene {
-//        let scene = FirstExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 600))
-//        scene.scaleMode = .aspectFit
-//        return scene
-//    }
+    // MARK: - Scene Setup
     
     func setupScene() {
-       
         for i in 0..<9 {
-            let letterSlot = SKLabelNode(fontNamed: "Arial")
-            letterSlot.text = "_"
-            letterSlot.fontSize = 40
-            letterSlot.position = CGPoint(x: CGFloat(i * 100) + 100, y: 390)
-            letterSlot.name = "letterSlot\(i)"
-            addChild(letterSlot)
-            
-            let upArrow = SKLabelNode(fontNamed: "Arial")
-            upArrow.text = "↑"
-            upArrow.fontSize = 30
-            upArrow.position = CGPoint(x: CGFloat(i * 100) + 100, y: 460)
-            upArrow.name = "upArrow\(i)"
-            addChild(upArrow)
-            
-            let downArrow = SKLabelNode(fontNamed: "Arial")
-            downArrow.text = "↓"
-            downArrow.fontSize = 30
-            downArrow.position = CGPoint(x: CGFloat(i * 100) + 100 , y: 330)
-            downArrow.name = "downArrow\(i)"
-            addChild(downArrow)
+            addLabelNode(withText: "_", fontSize: 40, position: CGPoint(x: CGFloat(i * 100) + 100, y: 390), name: "letterSlot\(i)")
+            addLabelNode(withText: "↑", fontSize: 30, position: CGPoint(x: CGFloat(i * 100) + 100, y: 460), name: "upArrow\(i)")
+            addLabelNode(withText: "↓", fontSize: 30, position: CGPoint(x: CGFloat(i * 100) + 100 , y: 330), name: "downArrow\(i)")
         }
         
-        let confirmButton = SKLabelNode(fontNamed: "Arial")
-        confirmButton.text = "Confirmar"
-        confirmButton.fontSize = 30
-        confirmButton.position = CGPoint(x: 450, y: 250)
-        confirmButton.name = "confirmButton"
-        addChild(confirmButton)
+        addLabelNode(withText: "Confirmar", fontSize: 30, position: CGPoint(x: 450, y: 250), name: "confirmButton")
     }
+    
+    func addLabelNode(withText text: String, fontSize: CGFloat, position: CGPoint, name: String) {
+        let labelNode = SKLabelNode(fontNamed: "Arial")
+        labelNode.text = text
+        labelNode.fontSize = fontSize
+        labelNode.position = position
+        labelNode.name = name
+        addChild(labelNode)
+    }
+    
+    // MARK: - Touch Handling
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             let node = atPoint(location)
             
-            if node.name?.hasPrefix("upArrow") ?? false {
-                if let index = Int(node.name!.replacingOccurrences(of: "upArrow", with: "")) {
-                    rotateDNALetter(index: index, up: true)
-                }
-            } else if node.name?.hasPrefix("downArrow") ?? false {
-                if let index = Int(node.name!.replacingOccurrences(of: "downArrow", with: "")) {
-                    rotateDNALetter(index: index, up: false)
-                }
+            if let arrowIndex = extractArrowIndex(from: node.name) {
+                rotateDNALetter(index: arrowIndex, up: node.name?.hasPrefix("upArrow") ?? false)
             } else if node.name == "confirmButton" {
-                moveTonewScene.toggle()
-                transcribeDNAtoRNA()
-                if checkRNA() {
-                    print("RNA correto! Processo concluído.")
-                    resetDNA()
-                } else {
-                    print("RNA incorreto. Tente novamente.")
-                }
+                handleConfirmButton()
             }
         }
     }
     
-    func rotateDNALetter(index: Int, up: Bool) {
-        let alphabet = "UACG"
+    func extractArrowIndex(from nodeName: String?) -> Int? {
+        guard let nodeName = nodeName else { return nil }
+        let arrowPrefix = "upArrow"
+        let indexString = nodeName.replacingOccurrences(of: arrowPrefix, with: "")
+                                  .replacingOccurrences(of: "downArrow", with: "")
+        return Int(indexString)
+    }
+    
+    // MARK: - Action Handling
+    
+    func handleConfirmButton() {
+        transcribeDNAtoRNA()
         
-        guard index >= 0 && index < dnaSequence.count else {
-            return
+        if checkRNA() {
+            print("RNA correto! Processo concluído.")
+            changeToNewView()
+        } else {
+            print("RNA incorreto. Tente novamente.")
         }
+    }
+    
+    // MARK: - Scene Transition
+    
+    func changeToNewView() {
+        self.run(.wait(forDuration: 3.0)) {
+            self.moveTonewScene.toggle()
+        }
+    }
+    
+    // MARK: - DNA Manipulation
+    
+    func rotateDNALetter(index: Int, up: Bool) {
+        let alphabet = "ATCG"
+        
+        guard index >= 0 && index < dnaSequence.count else { return }
         
         var currentIndex = alphabet.firstIndex(of: dnaSequence[dnaSequence.index(dnaSequence.startIndex, offsetBy: index)])!
         
@@ -119,11 +119,12 @@ class FirstExperimentScene: SKScene {
         }
         
         let newChar = alphabet[currentIndex]
-        let updateddnaSequence = dnaSequence.prefix(index) + String(newChar) + dnaSequence.suffix(from: dnaSequence.index(dnaSequence.startIndex, offsetBy: index + 1))
-        dnaSequence = String(updateddnaSequence)
+        dnaSequence.replaceSubrange(dnaSequence.index(dnaSequence.startIndex, offsetBy: index)..<dnaSequence.index(dnaSequence.startIndex, offsetBy: index + 1), with: String(newChar))
         
         updatednaSequenceDisplay()
     }
+    
+    // MARK: - Display Updates
     
     func updatednaSequenceDisplay() {
         for (index, char) in dnaSequence.enumerated() {
@@ -133,46 +134,36 @@ class FirstExperimentScene: SKScene {
         }
     }
     
+    // MARK: - RNA Transcription
+    
     func transcribeDNAtoRNA() {
         rnaSequence = ""
         for char in dnaSequence {
             switch char {
-                case "A":
-                    rnaSequence += "U"
-                case "T":
-                    rnaSequence += "A"
-                case "C":
-                    rnaSequence += "G"
-                case "G":
-                    rnaSequence += "C"
-                default:
-                    rnaSequence += String(char)
+            case "A":
+                rnaSequence += "U"
+            case "T":
+                rnaSequence += "A"
+            case "C":
+                rnaSequence += "G"
+            case "G":
+                rnaSequence += "C"
+            default:
+                rnaSequence += String(char)
             }
         }
         showTranscriptionOnScreen()
     }
     
-    //TODO: Trocar para lógica de tradução de DNA para mRNA
-    func checkdnaSequence() -> Bool {
-        return dnaSequence == "AAAAAAAAG"
-    }
-    
-    func resetDNA() {
-        self.dnaSequence = "AAAAAAAAA"
-        self.currentdnaSequenceIndex = 0
-        
-        updatednaSequenceDisplay()
-    }
-    
     func checkRNA() -> Bool {
-        return rnaSequence == "UUUUUUUUC"
+        return rnaSequence == ExperimentStrings.firstResponse
     }
     
     func showTranscriptionOnScreen() {
         let transcriptionLabel = SKLabelNode(fontNamed: "Arial")
-        transcriptionLabel.text = "RNA: \(rnaSequence)"
+        transcriptionLabel.text = "RNA: \(ExperimentStrings.firstResponse)"
         transcriptionLabel.fontSize = 25
-        transcriptionLabel.position = CGPoint(x: 500, y: 100)
+        transcriptionLabel.position = CGPoint(x: 500, y: 500)
         transcriptionLabel.name = "transcriptionLabel"
         
         if let previousTranscriptionLabel = childNode(withName: "transcriptionLabel") {
@@ -182,8 +173,9 @@ class FirstExperimentScene: SKScene {
         addChild(transcriptionLabel)
     }
     
-    //Animação das poções
-    func createPotion() {}
+    // MARK: - Animation
     
+    func createPotion() {
+        // Implement potion creation animation here
+    }
 }
-

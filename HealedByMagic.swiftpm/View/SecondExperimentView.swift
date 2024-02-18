@@ -17,14 +17,14 @@ struct SecondExperimentView: View {
     var body: some View {
         VStack {
             
-            SpriteView(scene: SecondExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 600), $navigateToNewView))
-                .frame(width: UIScreen.main.bounds.width, height: 600)
+            SpriteView(scene: SecondExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 800), $navigateToNewView))
+                .frame(width: UIScreen.main.bounds.width, height: 800)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .statusBar(hidden: true)
                 .ignoresSafeArea()
             
             HStack {
-                TextBoxComponent(textArray: TextDataManager.potionDone, finishSpeak: $finishSpeak)
+                TextBoxComponent(textArray: TextDataManager.potionIntroduction, finishSpeak: $finishSpeak)
                 
                 if finishSpeak {
                     Button(action: {
@@ -37,6 +37,6 @@ struct SecondExperimentView: View {
 
         }
         
-        NavigationLink("", destination: FinishView(), isActive: $navigateToNewView)
+        NavigationLink("", destination: SecondExperimentView(), isActive: $navigateToNewView)
     }
 }
