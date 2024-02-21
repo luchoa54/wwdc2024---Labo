@@ -17,13 +17,12 @@ struct PresentationView: View {
         ZStack {
             
             VStack {
+                
                 TextBoxComponent(textArray: TextDataManager.worldIntroduction, finishSpeak: $finishSpeak)
                 
                 if (finishSpeak) {
                     Button(action: { moveToNewView = true }) {
-                        Image("icon")
-                            .resizable()
-                            .frame(width: 100, height: 100)
+                        ButtonStyle("Run to the Lab")
                     }
                     .padding(.top, 60)
                 }

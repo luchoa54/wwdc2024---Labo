@@ -17,12 +17,13 @@ struct StartView: View {
         NavigationView {
             ZStack {
                 
-                VStack {
-                    
+                VStack(spacing: 50){
+                    Text("HealedByMagic")
+                        .font(.title)
                     Button(action: {
                         moveToNewView.toggle()
                     }, label: {
-                        /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                        ButtonStyle("Tap to Play")
                     })
                 }
                 
@@ -31,5 +32,45 @@ struct StartView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarBackButtonHidden(true)
+    }
+}
+
+struct ButtonExperimentStyle: View {
+    
+    var buttonString: String
+    
+    init(_ buttonString: String) {
+        self.buttonString = buttonString
+    }
+    
+    var body: some View {
+       Text(buttonString)
+            .font(.title2)
+            .foregroundStyle(.white)
+            .background {
+                RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                    .fill(.brown)
+                    .frame(width: 200, height: 180)
+            }
+    }
+}
+
+struct ButtonStyle: View {
+    
+    var buttonString: String
+    
+    init(_ buttonString: String) {
+        self.buttonString = buttonString
+    }
+    
+    var body: some View {
+       Text(buttonString)
+            .font(.title2)
+            .foregroundStyle(.white)
+            .background {
+                RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                    .fill(.red)
+                    .frame(width: 200, height: 50)
+            }
     }
 }

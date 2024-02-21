@@ -17,26 +17,38 @@ struct SecondExperimentView: View {
     var body: some View {
         VStack {
             
-            SpriteView(scene: SecondExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 800), $navigateToNewView))
-                .frame(width: UIScreen.main.bounds.width, height: 800)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .statusBar(hidden: true)
-                .ignoresSafeArea()
-            
-            HStack {
-                TextBoxComponent(textArray: TextDataManager.potionIntroduction, finishSpeak: $finishSpeak)
+            HStack(spacing: 12) {
+                TextBoxComponent(textArray: TextDataManager.potionDone, finishSpeak: $finishSpeak)
+                    .padding(.leading, 12)
+                
+                Spacer()
+                    .frame(maxWidth: 100)
                 
                 if finishSpeak {
                     Button(action: {
-                        navigateToNewView.toggle()
+                        withAnimation {
+                            navigateToNewView.toggle()
+                        }
                     }, label: {
-                        /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                        ButtonExperimentStyle("Get Results")
                     })
+                    .padding(.bottom, 12)
+                    .padding(.trailing, 75)
+                    
+                }else {
+                    Spacer()
                 }
-            }
+                
+            }.padding(.top, 60)
+            
+            SpriteView(scene: SecondExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 810), $navigateToNewView))
+                .frame(width: UIScreen.main.bounds.width, height: 810)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .statusBar(hidden: true)
+                .ignoresSafeArea()
 
-        }
+        }.navigationBarBackButtonHidden()
         
-        NavigationLink("", destination: SecondExperimentView(), isActive: $navigateToNewView)
+        NavigationLink("", destination: FinishView(), isActive: $navigateToNewView)
     }
 }

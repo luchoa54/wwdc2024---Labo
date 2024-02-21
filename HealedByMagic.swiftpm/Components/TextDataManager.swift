@@ -15,9 +15,12 @@ enum cientistEmotion: String {
     case scared = "scared"
 }
 
-enum charTalkin: String {
-    case cientist = "cientist"
-    case player = ""
+enum TextSection: String {
+    case worldIntroduction
+    case potionIntroduction
+    case potionDone
+    case experimentDone
+    case finishExperience
 }
 
 //TODO: Traduzir para inglês
@@ -26,9 +29,9 @@ struct TextDataManager {
     var emotion: cientistEmotion
     
     public static var worldIntroduction : [TextDataManager] = [
-        .init(text: "Ei você, preciso da sua ajuda! Um mágico maluco espalhou um encantamento por todo o mundo que está transformando as pessoas em monstros!", emotion: .scared),
-        .init(text: "Depois de me acalmar e analisar alguns pacientes, tenho a impressão de que a transformação das pessoas em monstros está relacionada a uma alteração genética específica", emotion: .determined),
-        .init(text: "Precisamos logo tentar criar uma cura para todo esse caos! Vamos ao trabalho!", emotion: .determined)
+        .init(text: "Ei você, preciso da sua ajuda! Um mágico maluco começou a soltar vários monstros ferozes perto das vilas!", emotion: .scared),
+        .init(text: "Descobri que podemos combater esses monstros com poções mágicas para ajudar os nossos combatentes a derrotarem esses monstros!", emotion: .determined),
+        .init(text: "Precisamos logo dar um fim a esse caos! Vamos ao trabalho!", emotion: .determined)
     ]
     
     public static var potionIntroduction : [TextDataManager] = [
@@ -44,17 +47,20 @@ struct TextDataManager {
     ]
     
     public static var experimentDone : [TextDataManager] = [
-        .init(text: "Senhor, percebeu uma coisa?", emotion: .determined),
-        .init(text: "Essas poções parecem muito com uma coisa...", emotion: .confused),
-        .init(text: "VACINAS!", emotion: .determined),
-        .init(text: "Este cenário que parece bobo retrata uma parte crucial de como esses pequenos frascos mantêm toda a humanidade segura contra várias doenças!", emotion: .determined),
-        .init(text: "Demorou um pouco para decifrar os DNAs, não é? Na vida real, é semelhante! As vacinas levam tempo devido ao trabalho árduo de compreender o vírus-alvo...", emotion: .determined),
-        .init(text: "... e encontrar os antígenos eficazes para desenvolver a cadeia de RNA correta, permitindo que nosso próprio corpo construa nossa defesa!", emotion: .determined),
-        .init(text: "As cadeias de RNA que você transcreveu são um pequenino trecho das que usadas para a criação das vacinas que nos ajudaram a vencer a recente pandemia de COVID-19, sabia?", emotion: .happy),
-        .init(text: "É claro que existem outras etapas na produção de vacinas por RNA, como testes e produção em massa. No entanto, é fascinante como essas cadeias são fundamentais para proteger todas as pessoas ao nosso redor!", emotion: .happy),
-        .init(text: "Muito obrigado por compartilhar essa experiência comigo! E lembre-se: Vacinas não apenas salvam vidas, mas também representam uma conquista da ciência que nos conecta e protege coletivamente", emotion: .happy)
+        .init(text: "Senhora Jaqueline?", emotion: .determined),
+        .init(text: "Você finalmente acordou, o que aconteceu?", emotion: .confused),
+        .init(text: "Monstros, poções mágicas? o que são essas letras escritas aqui?", emotion: .determined),
+        .init(text: "Pera, é isso! Todas essas cadeias são o que nós precisamos para conseguir decodificar o genoma do vírus!", emotion: .determined),
+        .init(text: "É incrível que a senhora conseguiu desvendar esse mistério em somente 48 horas!", emotion: .determined),
+        .init(text: "Agora podemos criar (\")poções mágicas(\") que vão ajudar o nosso corpo a criar defensores contra a doença! Vamos começar os testes da vacina!", emotion: .determined)
     ]
 
+    public static var finishExperience : [TextDataManager] = [
+        .init(text: "Essa experiência foi feita para compartilhar um pouco da história da doutora Jaqueline Goes de Jesus!", emotion: .determined),
+        .init(text: "Ela foi a principal coordenadora da equipe responsável pelo sequenciamento do genoma do vírus SARS-CoV-2 após 48 horas após o primeiro caso da doença no Brasil!", emotion: .happy),
+        .init(text: "O trabalho dela e de tantos outros pesquisadores ajudaram a salvar tantas vidas durante esses tempos difícies que a humanidade passou!", emotion: .happy),
+        .init(text: "Muito obrigado por compartilhar essa experiência comigo! E lembre-se: Vacinas não apenas salvam vidas, mas também representam uma conquista da ciência que nos conecta e protege coletivamente!", emotion: .happy)
+    ]
     
 }
 
