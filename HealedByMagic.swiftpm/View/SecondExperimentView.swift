@@ -34,7 +34,7 @@ struct SecondExperimentView: View {
                            .padding(.horizontal, 24)
                    }
                    
-                   if potionDone {
+                   if finishSpeak2 {
                        Button(action: {
                            navigateToNewView.toggle()
                        }, label: {
@@ -44,14 +44,14 @@ struct SecondExperimentView: View {
                }.padding(.bottom, 700)
                    .padding(.trailing, 36)
                 
-                SpriteView(scene: FirstExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 810), $navigateToNewView, $potionDone), options: [.allowsTransparency])
+                SpriteView(scene: SecondExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 810), $navigateToNewView, $potionDone), options: [.allowsTransparency])
                     .frame(width: UIScreen.main.bounds.width, height: 810)
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .statusBar(hidden: true)
                     .padding(.top, 250)
             }
             
-            NavigationLink("", destination: SecondExperimentView(), isActive: $navigateToNewView)
+            NavigationLink("", destination: FinishView(), isActive: $navigateToNewView)
         }
         .navigationBarBackButtonHidden()
 

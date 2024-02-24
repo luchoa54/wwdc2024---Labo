@@ -20,10 +20,7 @@ struct FinishView: View {
                 .resizable()
                 .ignoresSafeArea()
             
-            VStack(spacing: 24) {
-                
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(width: 1000, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            VStack(spacing: 36) {
                 
                 if !showFinalDialog {
                     BeforeFinalView(showFinalDialog: $showFinalDialog)

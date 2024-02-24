@@ -49,6 +49,7 @@ class SecondExperimentScene: SKScene {
         addLabelNode(withText: ExperimentStrings.secondResponse, fontSize: 80, position: CGPoint(x: 500, y: 480), name: "confirmButton")
         
         createMachineNode()
+        createBackground()
     }
     
     func createMachineNode() {
@@ -76,22 +77,7 @@ class SecondExperimentScene: SKScene {
     }
     
     func createBackground() {
-        let texture = SKTexture(imageNamed: "background")
-        texture.filteringMode = .nearest
-        
-        let bg1Node = SKSpriteNode(texture: texture)
-        
-        bg1Node.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 100)
-        bg1Node.zPosition = -1
-        
-        addChild(bg1Node)
-        
-        let bg2Node = SKSpriteNode(texture: texture)
-        
-        bg2Node.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
-        bg2Node.zPosition = 0
-        
-        addChild(bg2Node)
+        self.backgroundColor = .clear
     }
     
     func addButtonNode(position: CGPoint, name: String, direction: arrowDirection) {
