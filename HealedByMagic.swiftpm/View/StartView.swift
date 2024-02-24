@@ -17,15 +17,21 @@ struct StartView: View {
         NavigationView {
             ZStack {
                 
+                Image(.menu)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                
                 VStack(spacing: 50){
-                    Text("HealedByMagic")
-                        .font(.title)
+                    Image(.logo)
+                        .resizable()
+                        .frame(width: 550, height: 550, alignment: .center)
                     Button(action: {
                         moveToNewView.toggle()
                     }, label: {
                         ButtonStyle("Tap to Play")
                     })
-                }
+                }.padding(.trailing, 800)
+                    .padding(.bottom, 300)
                 
                 NavigationLink("", destination: PresentationView(), isActive: $moveToNewView)
             }
@@ -48,8 +54,7 @@ struct ButtonExperimentStyle: View {
             .font(.title2)
             .foregroundStyle(.white)
             .background {
-                RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
-                    .fill(.brown)
+                Image(.bigButton)
                     .frame(width: 200, height: 180)
             }
     }
@@ -68,9 +73,8 @@ struct ButtonStyle: View {
             .font(.title2)
             .foregroundStyle(.white)
             .background {
-                RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
-                    .fill(.red)
-                    .frame(width: 200, height: 50)
+                Image(.button)
+                    .frame(width: 300, height: 100)
             }
     }
 }

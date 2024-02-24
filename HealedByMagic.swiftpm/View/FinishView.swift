@@ -16,7 +16,15 @@ struct FinishView: View {
     var body: some View {
         ZStack {
             
-            VStack {
+            Image(.background)
+                .resizable()
+                .ignoresSafeArea()
+            
+            VStack(spacing: 24) {
+                
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 1000, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                
                 if !showFinalDialog {
                     BeforeFinalView(showFinalDialog: $showFinalDialog)
                 } else {
@@ -43,23 +51,25 @@ struct BeforeFinalView: View {
     @State var clickCount: Int = 0
     
     var body: some View {
-        
-        viewForClickCount(clickCount)
-        HStack {
-            TextBoxAndImageComponent(textArray: TextDataManager.experimentDone, finishSpeak: $showFinalDialog, clickCount: $clickCount)
+        VStack(spacing: 24) {
+            Image(viewForClickCount(clickCount))
+                .frame(width: 1000, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            HStack {
+                TextBoxAndImageComponent(textArray: TextDataManager.experimentDone, finishSpeak: $showFinalDialog, clickCount: $clickCount)
+            }
         }
     }
     
-    func viewForClickCount(_ count: Int) -> AnyView {
+    func viewForClickCount(_ count: Int) -> String {
         switch count {
             case 1:
-                return AnyView(Image(systemName: "1.circle"))
+                return "imagem1"
             case 2:
-                return AnyView(Image(systemName: "2.circle"))
+                return "imagem2"
             case 3:
-                return AnyView(Image(systemName: "3.circle"))
+                return "imagem3"
             default:
-                return AnyView(EmptyView())
+                return "false"
         }
     }
 }

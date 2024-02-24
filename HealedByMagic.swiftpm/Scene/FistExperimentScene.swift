@@ -9,22 +9,29 @@ import Foundation
 import SpriteKit
 import SwiftUI
 
+enum arrowDirection {
+    case up, down
+}
+
 class FirstExperimentScene: SKScene {
     
     var dnaSequence: String = ExperimentStrings.inicialDNASequence
     var rnaSequence: String = ""
     var currentdnaSequenceIndex: Int = 0
+    var machineNode: SKNode = SKNode()
+    var canClickButton: Bool = true
     
     @Binding var moveTonewScene: Bool
+    @Binding var potionDone: Bool
     
     // MARK: - Initialization
     
-    init(size: CGSize, _ moveTonewScene: Binding<Bool>) {
+    init(size: CGSize, _ moveTonewScene: Binding<Bool>, _ potionDone: Binding<Bool>) {
         _moveTonewScene = moveTonewScene
+        _potionDone = potionDone
         super.init(size: size)
         setupScene()
         updatednaSequenceDisplay()
-        showTranscriptionOnScreen()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,21 +41,93 @@ class FirstExperimentScene: SKScene {
     // MARK: - Scene Setup
     
     func setupScene() {
+        let positions = [190,270, 348, 425, 502, 579, 659, 737, 815]
         for i in 0..<9 {
-            addLabelNode(withText: "_", fontSize: 40, position: CGPoint(x: CGFloat(i * 100) + 100, y: 390), name: "letterSlot\(i)")
-            addLabelNode(withText: "↑", fontSize: 30, position: CGPoint(x: CGFloat(i * 100) + 100, y: 460), name: "upArrow\(i)")
-            addLabelNode(withText: "↓", fontSize: 30, position: CGPoint(x: CGFloat(i * 100) + 100 , y: 330), name: "downArrow\(i)")
+            addLabelNode(withText: "_", fontSize: 40, position: CGPoint(x: positions[i], y: 265), name: "letterSlot\(i)")
+            addButtonNode(position: CGPoint(x: positions[i], y: i == 0 || i == 8 ? 380: 400), name: "upArrow\(i)", direction: .down)
+            addButtonNode(position: CGPoint(x: positions[i] , y: i == 0 || i == 8 ? 180: 170), name: "downArrow\(i)", direction: .up)
         }
         
-        addLabelNode(withText: "Confirmar", fontSize: 30, position: CGPoint(x: 450, y: 250), name: "confirmButton")
+        addLabelNode(withText: "Confirm", fontSize: 30, position: CGPoint(x: 500, y: 60), name: "confirmButton")
+        
+        addLabelNode(withText: ExperimentStrings.firstResponse, fontSize: 80, position: CGPoint(x: 500, y: 480), name: "responseString")
+        
+        createMachineNode()
+        createBackground()
+    }
+    
+    func createMachineNode() {
+        
+        let texture = SKTexture(imageNamed: "machine0")
+        texture.filteringMode = .nearest
+        
+        let machineNode = SKSpriteNode(texture: texture, size: CGSize(width: 1400, height: 1300))
+        
+        machineNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 380)
+        machineNode.zPosition = 2
+        
+        let textureOverlay = SKTexture(imageNamed: "machineOverlay")
+        texture.filteringMode = .nearest
+        
+        let machineOverlayNode = SKSpriteNode(texture: textureOverlay)
+        
+        machineOverlayNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 110)
+        machineOverlayNode.zPosition = 3
+        
+        self.addChild(machineOverlayNode)
+        
+        self.machineNode = machineNode
+        addChild(self.machineNode)
+    }
+    
+    func createBackground() {
+//        let texture = SKTexture(imageNamed: "background")
+//        texture.filteringMode = .nearest
+//        
+//        let bg1Node = SKSpriteNode(texture: texture)
+//        
+//        bg1Node.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 100)
+//        bg1Node.zPosition = -1
+//        
+//        addChild(bg1Node)
+//        
+//        let bg2Node = SKSpriteNode(texture: texture)
+//        
+//        bg2Node.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
+//        bg2Node.zPosition = 0
+//        
+//        addChild(bg2Node)
+        self.backgroundColor = .clear
+    }
+    
+    func addButtonNode(position: CGPoint, name: String, direction: arrowDirection) {
+        let texture = SKTexture(imageNamed: "buttonMachine")
+        texture.filteringMode = .nearest
+        
+        let button = SKSpriteNode(texture: texture)
+        button.size = CGSize(width: 60, height: 80)
+        button.position = position
+        button.name = name
+        button.zPosition = 6
+        
+        switch direction {
+            case .up:
+                button.yScale = -1
+            case .down:
+                button.yScale = 1
+        }
+        
+        addChild(button)
     }
     
     func addLabelNode(withText text: String, fontSize: CGFloat, position: CGPoint, name: String) {
         let labelNode = SKLabelNode(fontNamed: "Arial")
         labelNode.text = text
+        labelNode.fontColor = .black
         labelNode.fontSize = fontSize
         labelNode.position = position
         labelNode.name = name
+        labelNode.zPosition = 5
         addChild(labelNode)
     }
     
@@ -61,8 +140,8 @@ class FirstExperimentScene: SKScene {
             
             if let arrowIndex = extractArrowIndex(from: node.name) {
                 rotateDNALetter(index: arrowIndex, up: node.name?.hasPrefix("upArrow") ?? false)
-            } else if node.name == "confirmButton" {
-                handleConfirmButton()
+            } else if node.name == "confirmButton" && canClickButton {
+                checkConfirmAction()
             }
         }
     }
@@ -71,27 +150,25 @@ class FirstExperimentScene: SKScene {
         guard let nodeName = nodeName else { return nil }
         let arrowPrefix = "upArrow"
         let indexString = nodeName.replacingOccurrences(of: arrowPrefix, with: "")
-                                  .replacingOccurrences(of: "downArrow", with: "")
+            .replacingOccurrences(of: "downArrow", with: "")
         return Int(indexString)
     }
     
     // MARK: - Action Handling
     
-    func handleConfirmButton() {
-        transcribeDNAtoRNA()
-        
+    func checkConfirmAction() {
+        canClickButton.toggle()
         if checkRNA() {
-            print("RNA correto! Processo concluído.")
-            changeToNewView()
+            createPotion()
         } else {
-            print("RNA incorreto. Tente novamente.")
+            showIncorrectInput()
         }
     }
     
     // MARK: - Scene Transition
     
     func changeToNewView() {
-        self.run(.wait(forDuration: 3.0)) {
+        self.run(.wait(forDuration: 1.0)) {
             self.moveTonewScene.toggle()
         }
     }
@@ -140,22 +217,23 @@ class FirstExperimentScene: SKScene {
         rnaSequence = ""
         for char in dnaSequence {
             switch char {
-            case "A":
-                rnaSequence += "U"
-            case "T":
-                rnaSequence += "A"
-            case "C":
-                rnaSequence += "G"
-            case "G":
-                rnaSequence += "C"
-            default:
-                rnaSequence += String(char)
+                case "A":
+                    rnaSequence += "U"
+                case "T":
+                    rnaSequence += "A"
+                case "C":
+                    rnaSequence += "G"
+                case "G":
+                    rnaSequence += "C"
+                default:
+                    rnaSequence += String(char)
             }
         }
         showTranscriptionOnScreen()
     }
     
     func checkRNA() -> Bool {
+        transcribeDNAtoRNA()
         return rnaSequence == ExperimentStrings.firstResponse
     }
     
@@ -176,6 +254,35 @@ class FirstExperimentScene: SKScene {
     // MARK: - Animation
     
     func createPotion() {
-        // Implement potion creation animation here
+        showCorrectInput()
+        machineNode.run(.createBluePotion())
+        potionDone.toggle()
+    }
+    
+    func showIncorrectInput() {
+        if let responseNode = scene?.childNode(withName: "responseString") as? SKLabelNode {
+            responseNode.fontSize = 50
+            responseNode.text = "RNA doesn't match"
+            responseNode.position.y += 10
+            responseNode.fontColor = UIColor(red: 188 / 255, green: 71 / 255, blue: 73 / 255, alpha: 1)
+            
+            Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
+                responseNode.fontSize = 80
+                responseNode.position.y -= 10
+                responseNode.text = ExperimentStrings.firstResponse
+                responseNode.fontColor = .black
+                
+                self.canClickButton.toggle()
+            }
+        }
+    }
+    
+    func showCorrectInput() {
+        if let responseNode = scene?.childNode(withName: "responseString") as? SKLabelNode {
+            responseNode.text = "Success! Potion created!"
+            responseNode.fontSize = 40
+            responseNode.position.y += 10
+            responseNode.fontColor = UIColor(red: 56 / 255, green: 102 / 255, blue: 65 / 255, alpha: 1)
+        }
     }
 }

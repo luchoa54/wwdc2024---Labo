@@ -12,43 +12,48 @@ import SpriteKit
 struct SecondExperimentView: View {
     
     @State private var finishSpeak: Bool = false
+    @State private var finishSpeak2: Bool = false
+    @State private var potionDone: Bool = false
     @State private var navigateToNewView: Bool = false
     
     var body: some View {
-        VStack {
+        ZStack {
             
-            HStack(spacing: 12) {
-                TextBoxComponent(textArray: TextDataManager.potionDone, finishSpeak: $finishSpeak)
-                    .padding(.leading, 12)
-                
-                Spacer()
-                    .frame(maxWidth: 100)
-                
-                if finishSpeak {
-                    Button(action: {
-                        withAnimation {
-                            navigateToNewView.toggle()
-                        }
-                    }, label: {
-                        ButtonExperimentStyle("Get Results")
-                    })
-                    .padding(.bottom, 12)
-                    .padding(.trailing, 75)
-                    
-                }else {
-                    Spacer()
-                }
-                
-            }.padding(.top, 60)
-            
-            SpriteView(scene: SecondExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 810), $navigateToNewView))
-                .frame(width: UIScreen.main.bounds.width, height: 810)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .statusBar(hidden: true)
+            Image(.background)
+                .resizable()
                 .ignoresSafeArea()
+            
+           ZStack {
+                
+               HStack(spacing: 36) {
+                   if !potionDone {
+                       TextBoxComponent(textArray: TextDataManager.potionProblem, finishSpeak: $finishSpeak)
+                           .padding(.horizontal, 24)
+                   } else {
+                       TextBoxComponent(textArray: TextDataManager.secondPotionDone, finishSpeak: $finishSpeak2)
+                           .padding(.horizontal, 24)
+                   }
+                   
+                   if potionDone {
+                       Button(action: {
+                           navigateToNewView.toggle()
+                       }, label: {
+                           ButtonExperimentStyle("Go to test!")
+                       }).padding(.bottom, 8)
+                   }
+               }.padding(.bottom, 700)
+                   .padding(.trailing, 36)
+                
+                SpriteView(scene: FirstExperimentScene(size: CGSize(width: UIScreen.main.bounds.width, height: 810), $navigateToNewView, $potionDone), options: [.allowsTransparency])
+                    .frame(width: UIScreen.main.bounds.width, height: 810)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .statusBar(hidden: true)
+                    .padding(.top, 250)
+            }
+            
+            NavigationLink("", destination: SecondExperimentView(), isActive: $navigateToNewView)
+        }
+        .navigationBarBackButtonHidden()
 
-        }.navigationBarBackButtonHidden()
-        
-        NavigationLink("", destination: FinishView(), isActive: $navigateToNewView)
     }
 }

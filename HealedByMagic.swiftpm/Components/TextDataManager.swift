@@ -35,15 +35,27 @@ struct TextDataManager {
     ]
     
     public static var potionIntroduction : [TextDataManager] = [
-        .init(text: "Essa é a máquina de criação de poções! Com as amostras de DNA dos pacientes monstrificados que consegui, podemos criar poções para reverter o efeito do feitiço", emotion: .determined),
+        .init(text: "Essa é a máquina de criação de poções! Com as amostras de DNA dos  monstros que consegui, podemos criar poções para combater a mutação deles e defender a vila!", emotion: .determined),
+        .init(text: "A cadeia de RNA que precisamos transcrever está aparecendo na parte de cima da máquina", emotion: .determined),
         .init(text: "Você só precisa colocar o código mRNA equivalente a essa cadeia de DNA que está aparecendo e começar o processo de criação", emotion: .determined),
-        .init(text: "Eu tenho a regra de transcrição aqui em algum lugar, mas você já pode começar o processo", emotion: .scared)
+        .init(text: "Por exemplo, se o código mostrado for UAGCAAUCA, você deve colocar ATCGTTAGT na máquina para criar a cadeia de RNA correta!", emotion: .determined),
+        .init(text: "Lembre-se das regras de transcrição de RNA: \n T = A, A = U, C = G, G = C", emotion: .scared)
     ]
     
-    public static var potionDone : [TextDataManager] = [
-        .init(text: "Você conseguiu! Essa poção será distribuida imediatamente após os nossos testes!", emotion: .determined),
+    public static var potionDone: [TextDataManager] = [
+        .init(text: "Você conseguiu! Essa poção será distribuida imediatamente após os nossos testes!", emotion: .determined)
+    ]
+    
+    public static var potionProblem : [TextDataManager] = [
         .init(text: "Ah não! A poção funcionou em perte dos pacientes, mas em outra não surtiu efeito algum! Será que o efeito teve um efeito diferente neles?", emotion: .determined),
-        .init(text: "Consegui o DNA desses pacientes, tente fazer outra poção imediatamente!", emotion: .determined)
+        .init(text: "Consegui o DNA desses pacientes, tente fazer outra poção imediatamente!", emotion: .determined),
+        .init(text: "Lembrando que: \n T = A, A = U, C = G, G = C", emotion: .scared)
+    ]
+    
+    public static var secondPotionDone: [TextDataManager] = [
+        .init(text: "Você conseguiu! Vamos rápido aos teste!", emotion: .determined),
+        .init(text: "É isso! Conseguimos combater todos os monstros por causa da sua poção!", emotion: .determined),
+        .init(text: "Senhora? O que está acontecendo? Você parece que vai apagar...", emotion: .determined),
     ]
     
     public static var experimentDone : [TextDataManager] = [
