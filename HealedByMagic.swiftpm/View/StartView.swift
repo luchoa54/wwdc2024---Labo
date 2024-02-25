@@ -17,9 +17,11 @@ struct StartView: View {
         NavigationView {
             ZStack {
                 
-                Image(.menu)
+                Image(.menu2)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                    .padding(.trailing, 500)
                 
                 VStack(spacing: 50){
                     Image(.logo)
@@ -28,7 +30,7 @@ struct StartView: View {
                     Button(action: {
                         moveToNewView.toggle()
                     }, label: {
-                        ButtonStyle("Tap to Play")
+                        ButtonStyle("Tap to Play", 1)
                     })
                 }.padding(.trailing, 800)
                     .padding(.bottom, 300)
@@ -44,17 +46,20 @@ struct StartView: View {
 struct ButtonExperimentStyle: View {
     
     var buttonString: String
+    var buttonColor: Int
     
-    init(_ buttonString: String) {
+    init(_ buttonString: String, _ buttonColor: Int) {
         self.buttonString = buttonString
+        self.buttonColor = buttonColor
     }
     
     var body: some View {
        Text(buttonString)
-            .font(.title2)
-            .foregroundStyle(.white)
+            .font(CustomFont().getFont(size: 24))
+            .foregroundStyle(.black)
             .background {
-                Image(.bigButton)
+                Image("bigButton\(buttonColor)")
+                    .resizable()
                     .frame(width: 200, height: 180)
             }
     }
@@ -63,17 +68,20 @@ struct ButtonExperimentStyle: View {
 struct ButtonStyle: View {
     
     var buttonString: String
+    var buttonColor: Int
     
-    init(_ buttonString: String) {
+    init(_ buttonString: String, _ buttonColor: Int) {
         self.buttonString = buttonString
+        self.buttonColor = buttonColor
     }
     
     var body: some View {
        Text(buttonString)
-            .font(.title2)
-            .foregroundStyle(.white)
+            .font(CustomFont().getFont(size: 24))
+            .foregroundStyle(.black)
             .background {
-                Image(.button)
+                Image("button\(buttonColor)")
+                    .resizable()
                     .frame(width: 300, height: 100)
             }
     }

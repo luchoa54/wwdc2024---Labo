@@ -32,7 +32,7 @@ struct FinishView: View {
                     Button(action: {
                         backToMenu.toggle()
                     }, label: {
-                        ButtonStyle("Retry Experience")
+                        ButtonStyle("Retry Experience", 2)
                     })
                 }
             }
@@ -52,7 +52,7 @@ struct BeforeFinalView: View {
             Image(viewForClickCount(clickCount))
                 .frame(width: 1000, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             HStack {
-                TextBoxAndImageComponent(textArray: TextDataManager.experimentDone, finishSpeak: $showFinalDialog, clickCount: $clickCount)
+                TextBoxAndImageComponent(textArray: TextDataManager.experimentDone, finishSpeak: $showFinalDialog, clickCount: $clickCount, boxColor: 2)
             }
         }
     }
@@ -77,8 +77,16 @@ struct AfterFinishView: View {
     @Binding var unlockFinishButton: Bool
     
     var body: some View {
-        HStack {
-            TextBoxComponent(textArray: TextDataManager.finishExperience, finishSpeak: $unlockFinishButton)
+        VStack(spacing: 30){
+            
+            Image(.jaqueline)
+                .resizable()
+                .frame(width: 500, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .clipShape(RoundedRectangle(cornerRadius: 10)
+                )
+            HStack {
+                TextBoxComponent(textArray: TextDataManager.finishExperience, finishSpeak: $unlockFinishButton, boxColor: 2)
+            }
         }
     }
 }

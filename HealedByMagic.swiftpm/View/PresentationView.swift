@@ -12,6 +12,7 @@ struct PresentationView: View {
     
     @State var moveToNewView : Bool = false
     @State private var finishSpeak: Bool = false
+    @State var imageIndex = 0
     
     var body: some View {
         ZStack {
@@ -22,14 +23,16 @@ struct PresentationView: View {
             
             VStack(spacing: 24){
                 
-                RoundedRectangle(cornerRadius: 10)
+                Image(.image0)
                     .frame(width: 1000, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 
-                TextBoxComponent(textArray: TextDataManager.worldIntroduction, finishSpeak: $finishSpeak)
+                TextBoxAndImageComponent(textArray: TextDataManager.worldIntroduction, finishSpeak: $finishSpeak,
+                clickCount: $imageIndex, boxColor: 1)
                 
                 if (finishSpeak) {
                     Button(action: { moveToNewView = true }) {
-                        ButtonStyle("Run to the Lab")
+                        ButtonStyle("Run to the Lab", 1)
                     }
                     .padding(.top, 60)
                 }

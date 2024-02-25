@@ -18,7 +18,8 @@ struct TextBoxComponent: View {
     
     @Binding var finishSpeak: Bool
     
-    @State var textSpeed: CGFloat = 4.0
+    @State var textSpeed: CGFloat = 1.0
+    @State var boxColor: Int
     
     var body: some View {
         ZStack {
@@ -31,11 +32,11 @@ struct TextBoxComponent: View {
                     .padding(.leading, 220)
                 
                 Spacer()
-                    .frame(width: 40)
+                    .frame(width: 25)
                 
                 HStack {
                     Text(getCurrentText(textArray: textArray))
-                        .font(.custom("Arial", size: 24))
+                        .font(CustomFont().getFont(size: 32))
                         .multilineTextAlignment(.center)
                         .frame(width: 710, height: 144, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .onAppear {
@@ -62,7 +63,7 @@ struct TextBoxComponent: View {
                 }.padding(.trailing, 210)
                 
             }.background {
-                Image(.textbox)
+                Image("textbox\(boxColor)")
                     .frame(width: 1000, height: 190, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
         }.padding(.bottom, 12)
@@ -97,7 +98,7 @@ struct TextBoxComponent: View {
 }
 
 #Preview {
-    TextBoxComponent(textArray: TextDataManager.experimentDone, finishSpeak: .constant(false))
+    TextBoxComponent(textArray: TextDataManager.experimentDone, finishSpeak: .constant(false), boxColor: 1)
 }
 
 struct TextBoxAndImageComponent: View {
@@ -110,34 +111,31 @@ struct TextBoxAndImageComponent: View {
     @Binding var finishSpeak: Bool
     @Binding var clickCount: Int
     
-    @State var textSpeed: CGFloat = 2.0
+    @State var textSpeed: CGFloat = 0.5
+    @State var boxColor: Int
     
     var body: some View {
         ZStack {
             
-            HStack(spacing: 50) {
+            HStack() {
                 
-                Image(.icon)
+                Image(getCurrentEmotion(textArray: textArray))
                     .resizable()
-                    .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.brown)
-                            .frame(width: 150, height: 140, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    }.padding(.leading, 210)
+                    .frame(width: 150, height: 130, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .padding(.leading, 220)
+                
+                Spacer()
+                    .frame(width: 25)
                 
                 HStack {
                     Text(getCurrentText(textArray: textArray))
-                        .font(.custom("Arial", size: 24))
+                        .font(CustomFont().getFont(size: 32))
                         .multilineTextAlignment(.center)
-                        .frame(width: 700, height: 124, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .frame(width: 710, height: 144, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .onAppear {
                             TextWriteOnScreen(textArray: textArray, 2.0)
-                        }.background {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.blue)
-                                .frame(width: 720, height: 160, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         }
+                        
                     VStack {
                         Spacer()
                         
@@ -154,17 +152,21 @@ struct TextBoxAndImageComponent: View {
                             .frame(width: 50, height: 50)
                             .background(Color.red)
                         }
-                    }.frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 160, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                }.padding(.trailing, 160)
-                
+                    }.frame(width: 50, height: 145, alignment: .leading)
+                        
+                }.padding(.trailing, 210)
                 
             }.background {
-                Image(.textbox)
+                Image("textbox\(boxColor)")
                     .frame(width: 1000, height: 190, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
         }.padding(.bottom, 12)
             .frame(width: 1000, height: 190, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         
+    }
+    
+    func getCurrentEmotion(textArray: [TextDataManager]) -> String {
+        return String(textArray[self.currentTextIndex].emotion.rawValue)
     }
     
     func getCurrentText(textArray : [TextDataManager]) -> String {
@@ -190,5 +192,5 @@ struct TextBoxAndImageComponent: View {
 }
 
 #Preview {
-    TextBoxComponent(textArray: TextDataManager.worldIntroduction, finishSpeak: .constant(false))
+    TextBoxComponent(textArray: TextDataManager.worldIntroduction, finishSpeak: .constant(false), boxColor: 1)
 }

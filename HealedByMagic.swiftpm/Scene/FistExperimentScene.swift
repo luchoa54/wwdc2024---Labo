@@ -42,15 +42,16 @@ class FirstExperimentScene: SKScene {
     
     func setupScene() {
         let positions = [190,270, 348, 425, 502, 579, 659, 737, 815]
+        
         for i in 0..<9 {
-            addLabelNode(withText: "_", fontSize: 40, position: CGPoint(x: positions[i], y: 265), name: "letterSlot\(i)")
+            addLabelNode(withText: "_", fontSize: 90, position: CGPoint(x: positions[i], y: 255), name: "letterSlot\(i)")
             addButtonNode(position: CGPoint(x: positions[i], y: i == 0 || i == 8 ? 380: 400), name: "upArrow\(i)", direction: .down)
             addButtonNode(position: CGPoint(x: positions[i] , y: i == 0 || i == 8 ? 180: 170), name: "downArrow\(i)", direction: .up)
         }
         
-        addLabelNode(withText: "Confirm", fontSize: 30, position: CGPoint(x: 500, y: 60), name: "confirmButton")
+        addLabelNode(withText: "Confirm", fontSize: 48, position: CGPoint(x: 500, y: 60), name: "confirmButton")
         
-        addLabelNode(withText: ExperimentStrings.firstResponse, fontSize: 80, position: CGPoint(x: 500, y: 480), name: "responseString")
+        addLabelNode(withText: ExperimentStrings.firstResponse, fontSize: 120, position: CGPoint(x: 500, y: 480), name: "responseString")
         
         createMachineNode()
         createBackground()
@@ -105,7 +106,7 @@ class FirstExperimentScene: SKScene {
     }
     
     func addLabelNode(withText text: String, fontSize: CGFloat, position: CGPoint, name: String) {
-        let labelNode = SKLabelNode(fontNamed: "Arial")
+        let labelNode = SKLabelNode(fontNamed: "VT323-Regular")
         labelNode.text = text
         labelNode.fontColor = .black
         labelNode.fontSize = fontSize
@@ -227,26 +228,11 @@ class FirstExperimentScene: SKScene {
                     rnaSequence += String(char)
             }
         }
-        showTranscriptionOnScreen()
     }
     
     func checkRNA() -> Bool {
         transcribeDNAtoRNA()
         return rnaSequence == ExperimentStrings.firstResponse
-    }
-    
-    func showTranscriptionOnScreen() {
-        let transcriptionLabel = SKLabelNode(fontNamed: "Arial")
-        transcriptionLabel.text = "RNA: \(ExperimentStrings.firstResponse)"
-        transcriptionLabel.fontSize = 25
-        transcriptionLabel.position = CGPoint(x: 500, y: 500)
-        transcriptionLabel.name = "transcriptionLabel"
-        
-        if let previousTranscriptionLabel = childNode(withName: "transcriptionLabel") {
-            previousTranscriptionLabel.removeFromParent()
-        }
-        
-        addChild(transcriptionLabel)
     }
     
     // MARK: - Animation
@@ -259,7 +245,7 @@ class FirstExperimentScene: SKScene {
     
     func showIncorrectInput() {
         if let responseNode = scene?.childNode(withName: "responseString") as? SKLabelNode {
-            responseNode.fontSize = 50
+            responseNode.fontSize = 70
             responseNode.text = "RNA doesn't match"
             responseNode.position.y += 10
             responseNode.fontColor = UIColor(red: 188 / 255, green: 71 / 255, blue: 73 / 255, alpha: 1)
@@ -278,7 +264,7 @@ class FirstExperimentScene: SKScene {
     func showCorrectInput() {
         if let responseNode = scene?.childNode(withName: "responseString") as? SKLabelNode {
             responseNode.text = "Success! Potion created!"
-            responseNode.fontSize = 40
+            responseNode.fontSize = 50
             responseNode.position.y += 10
             responseNode.fontColor = UIColor(red: 56 / 255, green: 102 / 255, blue: 65 / 255, alpha: 1)
         }

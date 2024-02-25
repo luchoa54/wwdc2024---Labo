@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import UIKit
 
 enum cientistEmotion: String {
     case happy = "happy"
@@ -23,55 +24,67 @@ enum TextSection: String {
     case finishExperience
 }
 
-//TODO: Traduzir para inglês
+struct CustomFont {
+    func getFont(size: CGFloat) -> Font {
+        let cfURL = Bundle.main.url( forResource: "VT323-Regular", withExtension: "ttf")! as CFURL
+        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+        let font = Font.custom("VT323-Regular", size: size)
+        return font
+    }
+}
+
 struct TextDataManager {
     var text: String
     var emotion: cientistEmotion
     
     public static var worldIntroduction : [TextDataManager] = [
-        .init(text: "Ei você, preciso da sua ajuda! Um mágico maluco começou a soltar vários monstros ferozes perto das vilas!", emotion: .scared),
-        .init(text: "Descobri que podemos combater esses monstros com poções mágicas para ajudar os nossos combatentes a derrotarem esses monstros!", emotion: .scared),
-        .init(text: "Precisamos logo dar um fim a esse caos! Vamos ao trabalho!", emotion: .scared)
+        .init(text: "Hey you, I need your help! A crazy magician has started releasing various ferocious monsters near the villages!", emotion: .scared),
+        .init(text: "Several people are quarantined because of these monsters roaming around their homes!", emotion: .scared),
+        .init(text: "I discovered that we can fight these monsters with magic potions that have genetic chains capable of defeating them!", emotion: .scared),
+        .init(text: "We need to put an end to this chaos soon! Let's go to work!", emotion: .scared)
     ]
     
     public static var potionIntroduction : [TextDataManager] = [
-        .init(text: "Essa é a máquina de criação de poções! Com as amostras de DNA dos  monstros que consegui, podemos criar poções para combater a mutação deles e defender a vila!", emotion: .happy),
-        .init(text: "A cadeia de RNA que precisamos transcrever está aparecendo na parte de cima da máquina", emotion: .happy),
-        .init(text: "Você só precisa colocar o código mRNA equivalente a essa cadeia de DNA que está aparecendo e começar o processo de criação", emotion: .happy),
-        .init(text: "Por exemplo, se o código mostrado for UAGCAAUCA, você deve colocar ATCGTTAGT na máquina para criar a cadeia de RNA correta!", emotion: .happy),
-        .init(text: "Lembre-se das regras de transcrição de RNA: \n T = A, A = U, C = G, G = C", emotion: .scared)
+        .init(text: "This is the potion creation machine! With the DNA samples from the monsters I obtained, we can create potions to combat their mutation and defend the village!", emotion: .happy),
+        .init(text: "The RNA chain that we need to get is appearing at the top of the machine", emotion: .happy),
+        .init(text: "You just need to put the DNA code equivalent to this mRNA chain that is appearing and hit the confirm button to start the creation process", emotion: .happy),
+        .init(text: "For example, if the code shown on the top of the machine is UAGCAAUCA, you must put ATCGTTAGT on the bottom of the machine to create the correct RNA strand!", emotion: .happy),
+        .init(text: "Remember the rules of RNA transcription: \nT = A, A = U, C = G, G = C", emotion: .scared)
     ]
     
     public static var potionDone: [TextDataManager] = [
-        .init(text: "Você conseguiu! Essa poção será distribuida imediatamente após os nossos testes!", emotion: .happy)
+        .init(text: "You did it! This potion will be used immediately for our tests!", emotion: .happy)
     ]
     
     public static var potionProblem : [TextDataManager] = [
-        .init(text: "Ah não! A poção funcionou em perte dos pacientes, mas em outra não surtiu efeito algum! Será que o efeito teve um efeito diferente neles?", emotion: .scared),
-        .init(text: "Consegui o DNA desses pacientes, tente fazer outra poção imediatamente!", emotion: .scared),
-        .init(text: "Lembrando que: \n T = A, A = U, C = G, G = C", emotion: .scared)
+        .init(text: "Oh no! The potion worked on some of the monsters, but on others it had no effect at all! Why didn't it have any effect on them?", emotion: .scared),
+        .init(text: "I got the DNA of these other monsters, try making another potion immediately!", emotion: .scared),
+        .init(text: "Remembering that: \nT = A, A = U, C = G, G = C", emotion: .scared)
     ]
     
     public static var secondPotionDone: [TextDataManager] = [
-        .init(text: "Você conseguiu! Vamos rápido aos teste!", emotion: .happy),
-        .init(text: "É isso! Conseguimos combater todos os monstros por causa da sua poção!", emotion: .happy),
-        .init(text: "Senhora? O que está acontecendo? Você parece que vai apagar...", emotion: .scared),
+        .init(text: "You did it! Let's get to the testing quickly!", emotion: .happy),
+        .init(text: "Wonderful! We were able to fight all the monsters because of your potion!", emotion: .happy),
+        .init(text: "Madam? What is happening? You look like you're going to black out...", emotion: .scared),
     ]
     
     public static var experimentDone : [TextDataManager] = [
-        .init(text: "Senhora Jaqueline?", emotion: .scared2),
-        .init(text: "Você finalmente acordou, o que aconteceu?", emotion: .scared2),
-        .init(text: "Monstros, poções mágicas? o que são essas letras escritas aqui?", emotion: .scared2),
-        .init(text: "Pera, é isso! Todas essas cadeias são o que nós precisamos para conseguir decodificar o genoma do vírus!", emotion: .happy2),
-        .init(text: "É incrível que a senhora conseguiu desvendar esse mistério em somente 48 horas!", emotion: .happy2),
-        .init(text: "Agora podemos criar (\")poções mágicas(\") que vão ajudar o nosso corpo a criar defensores contra a doença! Vamos começar os testes da vacina!", emotion: .happy2)
+        .init(text: "Doctor Jaqueline?", emotion: .scared2),
+        .init(text: "You finally woke up, what happened?", emotion: .scared2),
+        .init(text: "Monsters, magic potions? what are these letters written here?", emotion: .scared2),
+        .init(text: "Wait, that's it! All these chains are what we need to be able to decode the virus genome!", emotion: .happy2),
+        .init(text: "With its discovery, our body now has the necessary instructions to create its own defense against the virus!", emotion: .happy2),
+        .init(text: "It's incredible that you managed to solve this mystery in just 48 hours! We finally have an effective vaccine!", emotion: .happy2),
+        .init(text: "Now we can create more (\")magic potions(\")! Let's start the vaccine's test phase!", emotion: .happy2)
     ]
 
     public static var finishExperience : [TextDataManager] = [
-        .init(text: "Essa experiência foi feita para compartilhar um pouco da história da doutora Jaqueline Goes de Jesus!", emotion: .happy2),
-        .init(text: "Ela foi a principal coordenadora da equipe responsável pelo sequenciamento do genoma do vírus SARS-CoV-2 após 48 horas após o primeiro caso da doença no Brasil!", emotion: .happy2),
-        .init(text: "O trabalho dela e de tantos outros pesquisadores ajudaram a salvar tantas vidas durante esses tempos difícies que a humanidade passou!", emotion: .happy2),
-        .init(text: "Muito obrigado por compartilhar essa experiência comigo! E lembre-se: Vacinas não apenas salvam vidas, mas também representam uma conquista da ciência que nos conecta e protege coletivamente!", emotion: .happy2)
+        .init(text: "This experience was designed to share a little of the story of Dr. Jaqueline Goes de Jesus!", emotion: .happy2),
+        .init(text: "She is a biomedical doctor, PhD in human pathology and Brazilian researcher!", emotion: .happy2),
+        .init(text: "And the main coordinator of the team responsible for sequencing the genome of the SARS-CoV-2 virus 48 hours after the first case of the disease in Brazil!", emotion: .happy2),
+        .init(text: "Her work and that of so many other researchers helped save so many lives during these difficult times that humanity went through!", emotion: .happy2),
+        .init(text: "This figurative scenario was created to imagine how difficult the process she went through to create the vaccines was!", emotion: .happy2),
+        .init(text: "Thank you very much for sharing this experience with me! And remember: Vaccines not only save lives, but they also represent an achievement of science that connects and protects us collectively!", emotion: .happy2)
     ]
     
 }

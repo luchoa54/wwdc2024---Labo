@@ -27,18 +27,19 @@ struct SecondExperimentView: View {
                 
                HStack(spacing: 36) {
                    if !potionDone {
-                       TextBoxComponent(textArray: TextDataManager.potionProblem, finishSpeak: $finishSpeak)
+                       TextBoxComponent(textArray: TextDataManager.potionProblem, finishSpeak: $finishSpeak, boxColor: 1)
                            .padding(.horizontal, 24)
                    } else {
-                       TextBoxComponent(textArray: TextDataManager.secondPotionDone, finishSpeak: $finishSpeak2)
+                       TextBoxComponent(textArray: TextDataManager.secondPotionDone, finishSpeak: $finishSpeak2, boxColor: 1)
                            .padding(.horizontal, 24)
                    }
                    
                    if finishSpeak2 {
                        Button(action: {
+                           Timer().invalidate()
                            navigateToNewView.toggle()
                        }, label: {
-                           ButtonExperimentStyle("Go to test!")
+                           ButtonExperimentStyle("Go to test!", 1)
                        }).padding(.bottom, 8)
                    }
                }.padding(.bottom, 700)
