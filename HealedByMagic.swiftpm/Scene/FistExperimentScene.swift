@@ -124,8 +124,22 @@ class FirstExperimentScene: SKScene {
             
             if let arrowIndex = extractArrowIndex(from: node.name) {
                 rotateDNALetter(index: arrowIndex, up: node.name?.hasPrefix("upArrow") ?? false)
+                if let buttonNode = node as? SKSpriteNode {
+                    buttonNode.texture = SKTexture(imageNamed: "buttonMachinePressed")
+                }
             } else if node.name == "confirmButton" && canClickButton {
                 checkConfirmAction()
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+            let node = atPoint(location)
+            
+            if let buttonNode = node as? SKSpriteNode, buttonNode.name?.contains("Arrow") ?? false {
+                buttonNode.texture = SKTexture(imageNamed: "buttonMachine")
             }
         }
     }

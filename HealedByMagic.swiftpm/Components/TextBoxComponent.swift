@@ -57,10 +57,9 @@ struct TextBoxComponent: View {
                             .frame(width: 50, height: 50)
                             .background(Color.red)
                         }
-                    }.frame(width: 50, height: 160, alignment: .leading)
+                    }.frame(width: 50, height: 145, alignment: .leading)
                         
                 }.padding(.trailing, 210)
-                
                 
             }.background {
                 Image(.textbox)
