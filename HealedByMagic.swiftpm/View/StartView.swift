@@ -40,6 +40,7 @@ struct StartView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarBackButtonHidden(true)
+        .statusBarHidden(true)
     }
 }
 
@@ -55,7 +56,7 @@ struct ButtonExperimentStyle: View {
     
     var body: some View {
        Text(buttonString)
-            .font(CustomFont().getFont(size: 24))
+            .font(CustomFont().getFont(size: 32))
             .foregroundStyle(.black)
             .background {
                 Image("bigButton\(buttonColor)")
@@ -77,7 +78,7 @@ struct ButtonStyle: View {
     
     var body: some View {
        Text(buttonString)
-            .font(CustomFont().getFont(size: 24))
+            .font(CustomFont().getFont(size: 32))
             .foregroundStyle(.black)
             .background {
                 Image("button\(buttonColor)")

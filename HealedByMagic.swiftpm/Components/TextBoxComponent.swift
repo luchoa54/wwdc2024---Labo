@@ -21,6 +21,8 @@ struct TextBoxComponent: View {
     @State var textSpeed: CGFloat = 1.0
     @State var boxColor: Int
     
+    @State private var isImageUp = true
+    
     var body: some View {
         ZStack {
             
@@ -42,7 +44,7 @@ struct TextBoxComponent: View {
                         .onAppear {
                             TextWriteOnScreen(textArray: textArray, 2.0)
                         }
-                        
+                    
                     VStack {
                         Spacer()
                         
@@ -51,15 +53,20 @@ struct TextBoxComponent: View {
                                 self.currentTextIndex = (self.currentTextIndex + 1) % textArray.count
                                 self.currentTextCount = 0
                             }){
-                                Image("textdone")
+                                Image("passText\(boxColor)")
                                     .resizable()
                                     .frame(width: 40, height: 40)
+                                    .offset(y: self.isImageUp ? -10 : 10)
+                                    .onAppear {
+                                        withAnimation(Animation.easeInOut(duration: 0.5).repeatForever()) {
+                                            self.isImageUp.toggle()
+                                        }
+                                    }
                             }
                             .frame(width: 50, height: 50)
-                            .background(Color.red)
                         }
                     }.frame(width: 50, height: 145, alignment: .leading)
-                        
+                    
                 }.padding(.trailing, 210)
                 
             }.background {
@@ -113,6 +120,7 @@ struct TextBoxAndImageComponent: View {
     
     @State var textSpeed: CGFloat = 0.5
     @State var boxColor: Int
+    @State private var isImageUp = true
     
     var body: some View {
         ZStack {
@@ -135,7 +143,7 @@ struct TextBoxAndImageComponent: View {
                         .onAppear {
                             TextWriteOnScreen(textArray: textArray, 2.0)
                         }
-                        
+                    
                     VStack {
                         Spacer()
                         
@@ -145,15 +153,20 @@ struct TextBoxAndImageComponent: View {
                                 self.currentTextCount = 0
                                 clickCount += 1
                             }){
-                                Image("textdone")
+                                Image("passText\(boxColor)")
                                     .resizable()
                                     .frame(width: 40, height: 40)
+                                    .offset(y: self.isImageUp ? -10 : 10) // Adiciona um deslocamento para cima e para baixo
+                                    .onAppear {
+                                        withAnimation(Animation.easeInOut(duration: 0.5).repeatForever()) {
+                                            self.isImageUp.toggle()
+                                        }
+                                    }
                             }
                             .frame(width: 50, height: 50)
-                            .background(Color.red)
                         }
                     }.frame(width: 50, height: 145, alignment: .leading)
-                        
+                    
                 }.padding(.trailing, 210)
                 
             }.background {

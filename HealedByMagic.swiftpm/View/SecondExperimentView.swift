@@ -39,7 +39,7 @@ struct SecondExperimentView: View {
                            Timer().invalidate()
                            navigateToNewView.toggle()
                        }, label: {
-                           ButtonExperimentStyle("Go to test!", 1)
+                           ButtonExperimentStyle("Wake Up?", 1)
                        }).padding(.bottom, 8)
                    }
                }.padding(.bottom, 700)

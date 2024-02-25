@@ -247,7 +247,7 @@ class SecondExperimentScene: SKScene {
             responseNode.fontColor = UIColor(red: 188 / 255, green: 71 / 255, blue: 73 / 255, alpha: 1)
             
             Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
-                responseNode.fontSize = 80
+                responseNode.fontSize = 120
                 responseNode.position.y -= 10
                 responseNode.text = ExperimentStrings.firstResponse
                 responseNode.fontColor = .black

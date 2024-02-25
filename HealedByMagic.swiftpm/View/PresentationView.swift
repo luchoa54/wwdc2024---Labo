@@ -30,6 +30,12 @@ struct PresentationView: View {
                 TextBoxAndImageComponent(textArray: TextDataManager.worldIntroduction, finishSpeak: $finishSpeak,
                 clickCount: $imageIndex, boxColor: 1)
                 
+                if !finishSpeak {
+                    Text("Click on the diamond shaped icon to pass the character's speech")
+                        .font(CustomFont().getFont(size: 32))
+                        .foregroundStyle(.white)
+                }
+                
                 if (finishSpeak) {
                     Button(action: { moveToNewView = true }) {
                         ButtonStyle("Run to the Lab", 1)

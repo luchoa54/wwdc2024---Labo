@@ -38,7 +38,7 @@ struct FirstExperimentView: View {
                        Button(action: {
                            navigateToNewView.toggle()
                        }, label: {
-                           ButtonExperimentStyle("Go to test!", 1)
+                           ButtonExperimentStyle("Go to tests!", 1)
                        }).padding(.bottom, 8)
                    }
                }.padding(.bottom, 700)
