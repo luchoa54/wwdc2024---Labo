@@ -16,7 +16,7 @@ struct FinishView: View {
     var body: some View {
         ZStack {
             
-            Image(.background)
+            Image(.background2)
                 .resizable()
                 .ignoresSafeArea()
             

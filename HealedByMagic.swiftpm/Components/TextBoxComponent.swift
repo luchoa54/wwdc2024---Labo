@@ -23,29 +23,25 @@ struct TextBoxComponent: View {
     var body: some View {
         ZStack {
             
-            HStack(spacing: 50) {
+            HStack() {
                 
                 Image(.icon)
                     .resizable()
                     .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.brown)
-                            .frame(width: 150, height: 140, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    }.padding(.leading, 210)
+                    .padding(.leading, 250)
+                
+                Spacer()
+                    .frame(width: 45)
                 
                 HStack {
                     Text(getCurrentText(textArray: textArray))
                         .font(.custom("Arial", size: 24))
                         .multilineTextAlignment(.center)
-                        .frame(width: 700, height: 124, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .frame(width: 720, height: 124, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .onAppear {
                             TextWriteOnScreen(textArray: textArray, 2.0)
-                        }.background {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.blue)
-                                .frame(width: 720, height: 160, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         }
+                        
                     VStack {
                         Spacer()
                         
@@ -61,13 +57,13 @@ struct TextBoxComponent: View {
                             .frame(width: 50, height: 50)
                             .background(Color.red)
                         }
-                    }.frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 160, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                }.padding(.trailing, 160)
+                    }.frame(width: 50, height: 160, alignment: .leading)
+                        
+                }.padding(.trailing, 210)
                 
                 
             }.background {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(.gray)
+                Image(.textbox)
                     .frame(width: 1000, height: 190, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
         }.padding(.bottom, 12)
@@ -95,6 +91,10 @@ struct TextBoxComponent: View {
         }
         timer.fire()
     }
+}
+
+#Preview {
+    TextBoxComponent(textArray: TextDataManager.experimentDone, finishSpeak: .constant(false))
 }
 
 struct TextBoxAndImageComponent: View {
@@ -156,8 +156,7 @@ struct TextBoxAndImageComponent: View {
                 
                 
             }.background {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(.gray)
+                Image(.textbox)
                     .frame(width: 1000, height: 190, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
         }.padding(.bottom, 12)
