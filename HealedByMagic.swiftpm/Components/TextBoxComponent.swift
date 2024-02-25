@@ -25,19 +25,19 @@ struct TextBoxComponent: View {
             
             HStack() {
                 
-                Image(.icon)
+                Image(getCurrentEmotion(textArray: textArray))
                     .resizable()
-                    .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .padding(.leading, 250)
+                    .frame(width: 150, height: 130, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .padding(.leading, 220)
                 
                 Spacer()
-                    .frame(width: 45)
+                    .frame(width: 40)
                 
                 HStack {
                     Text(getCurrentText(textArray: textArray))
                         .font(.custom("Arial", size: 24))
                         .multilineTextAlignment(.center)
-                        .frame(width: 720, height: 124, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .frame(width: 710, height: 144, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .onAppear {
                             TextWriteOnScreen(textArray: textArray, 2.0)
                         }
@@ -74,6 +74,10 @@ struct TextBoxComponent: View {
         let currentText = textArray[self.currentTextIndex].text
         let endIndex = currentText.index(currentText.startIndex, offsetBy: self.currentTextCount)
         return String(currentText[..<endIndex])
+    }
+    
+    func getCurrentEmotion(textArray: [TextDataManager]) -> String {
+        return String(textArray[self.currentTextIndex].emotion.rawValue)
     }
     
     func TextWriteOnScreen(textArray: [TextDataManager], _ textSpeed: CGFloat) {

@@ -46,7 +46,7 @@ class SecondExperimentScene: SKScene {
         
         addLabelNode(withText: "Confirm", fontSize: 30, position: CGPoint(x: 500, y: 60), name: "confirmButton")
         
-        addLabelNode(withText: ExperimentStrings.secondResponse, fontSize: 80, position: CGPoint(x: 500, y: 480), name: "confirmButton")
+        addLabelNode(withText: ExperimentStrings.secondResponse, fontSize: 80, position: CGPoint(x: 500, y: 480), name: "responseString")
         
         createMachineNode()
         createBackground()
@@ -120,8 +120,22 @@ class SecondExperimentScene: SKScene {
             
             if let arrowIndex = extractArrowIndex(from: node.name) {
                 rotateDNALetter(index: arrowIndex, up: node.name?.hasPrefix("upArrow") ?? false)
+                if let buttonNode = node as? SKSpriteNode {
+                    buttonNode.texture = SKTexture(imageNamed: "buttonMachinePressed")
+                }
             } else if node.name == "confirmButton" && canClickButton {
-                handleConfirmButton()
+                checkConfirmAction()
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+            let node = atPoint(location)
+            
+            if let buttonNode = node as? SKSpriteNode, buttonNode.name?.contains("Arrow") ?? false {
+                buttonNode.texture = SKTexture(imageNamed: "buttonMachine")
             }
         }
     }
@@ -130,13 +144,13 @@ class SecondExperimentScene: SKScene {
         guard let nodeName = nodeName else { return nil }
         let arrowPrefix = "upArrow"
         let indexString = nodeName.replacingOccurrences(of: arrowPrefix, with: "")
-                                  .replacingOccurrences(of: "downArrow", with: "")
+            .replacingOccurrences(of: "downArrow", with: "")
         return Int(indexString)
     }
     
     // MARK: - Action Handling
     
-    func handleConfirmButton() {
+    func checkConfirmAction() {
         canClickButton.toggle()
         if checkRNA() {
             createPotion()
@@ -148,7 +162,7 @@ class SecondExperimentScene: SKScene {
     // MARK: - Scene Transition
     
     func changeToNewView() {
-        self.run(.wait(forDuration: 3.0)) {
+        self.run(.wait(forDuration: 1.0)) {
             self.moveTonewScene.toggle()
         }
     }
@@ -197,16 +211,16 @@ class SecondExperimentScene: SKScene {
         rnaSequence = ""
         for char in dnaSequence {
             switch char {
-            case "A":
-                rnaSequence += "U"
-            case "T":
-                rnaSequence += "A"
-            case "C":
-                rnaSequence += "G"
-            case "G":
-                rnaSequence += "C"
-            default:
-                rnaSequence += String(char)
+                case "A":
+                    rnaSequence += "U"
+                case "T":
+                    rnaSequence += "A"
+                case "C":
+                    rnaSequence += "G"
+                case "G":
+                    rnaSequence += "C"
+                default:
+                    rnaSequence += String(char)
             }
         }
         showTranscriptionOnScreen()
@@ -219,7 +233,7 @@ class SecondExperimentScene: SKScene {
     
     func showTranscriptionOnScreen() {
         let transcriptionLabel = SKLabelNode(fontNamed: "Arial")
-        transcriptionLabel.text = "RNA: \(rnaSequence)"
+        transcriptionLabel.text = "RNA: \(ExperimentStrings.firstResponse)"
         transcriptionLabel.fontSize = 25
         transcriptionLabel.position = CGPoint(x: 500, y: 500)
         transcriptionLabel.name = "transcriptionLabel"
@@ -249,7 +263,7 @@ class SecondExperimentScene: SKScene {
             Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
                 responseNode.fontSize = 80
                 responseNode.position.y -= 10
-                responseNode.text = ExperimentStrings.secondResponse
+                responseNode.text = ExperimentStrings.firstResponse
                 responseNode.fontColor = .black
                 
                 self.canClickButton.toggle()
@@ -259,7 +273,7 @@ class SecondExperimentScene: SKScene {
     
     func showCorrectInput() {
         if let responseNode = scene?.childNode(withName: "responseString") as? SKLabelNode {
-            responseNode.text = "Success! Creatin potion..."
+            responseNode.text = "Success! Potion created!"
             responseNode.fontSize = 40
             responseNode.position.y += 10
             responseNode.fontColor = UIColor(red: 56 / 255, green: 102 / 255, blue: 65 / 255, alpha: 1)
